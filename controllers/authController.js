@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 // Demander une réinitialisation de mot de passe
 const resetPasswordRequest = async (req, res) => {
   const { email } = req.body;
-
+   
   try {
     // Vérifier si l'utilisateur existe avec cet email
     const user = await User.findOne({ email });
@@ -20,20 +20,20 @@ const resetPasswordRequest = async (req, res) => {
 
     // Définir la date d'expiration du jeton (par exemple 1 heure)
     const resetPasswordExpire = Date.now() + 3600000;
-
+    // console.log("bonjour")
     // Sauvegarder le jeton et la date d'expiration dans la base de données
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpire = resetPasswordExpire;
     await user.save();
-
+ 
     // Créer un lien de réinitialisation contenant le jeton
-    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetLink = `https://extraordinary-biscotti-eb6433.netlify.app/reset-password/${resetToken}`;
 
     // Configurer le transporteur d'email avec nodemailer
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'gningngone50@gmail.com',  // Remplacez par votre email
+        user: 'gningngone50@gmail.com',
         pass: 'rkkybzdfbaehcffa',  // Remplacez par votre mot de passe
       },
     });
