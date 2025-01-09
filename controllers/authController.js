@@ -61,8 +61,7 @@ const resetPassword = async (req, res) => {
   const { newPassword } = req.body;
   const {resetToken} = req.params;
 
-console.log(resetToken);
-
+  console.log(resetToken)
   try {
     // Vérifier le jeton et s'assurer qu'il n'est pas expiré
     const user = await User.findOne({

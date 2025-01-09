@@ -1,13 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const authRoutes = require('./routes/authRoutes');  // Assurez-vous que le fichier authRoutes.js existe bien dans le dossier routes
+const authRoutes = require('./routes/authRoutes');  
 
 const app = express();
 
 // Middleware
-app.use(express.json());  // Pour analyser le corps des requêtes JSON
-app.use(cors());          // Pour permettre les requêtes depuis le frontend (React)
+app.use(express.json());  
+app.use(cors());          
 
 // Connexion à MongoDB
 mongoose.connect('mongodb+srv://projetapp:basedonnee@cluster0.lzatl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
