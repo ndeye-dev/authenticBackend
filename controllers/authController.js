@@ -58,35 +58,35 @@ const resetPasswordRequest = async (req, res) => {
 
 // controllers/authController.js
 const resetPassword = async (req, res) => {
-  const { newPassword } = req.body;
-  const {resetToken} = req.params;
+  const { newPassword } = req.body;  // Récupère le nouveau mot de passe envoyé depuis le frontend
+  const { resetToken } = req.params;  // Récupère le token de réinitialisation dans l'URL
 
-  console.log(resetToken)
   try {
-    // Vérifier le jeton et s'assurer qu'il n'est pas expiré
+    // Vérification du jeton de réinitialisation et de son expiration
     const user = await User.findOne({
-      resetPasswordToken: resetToken,
-      resetPasswordExpire: { $gt: Date.now() },  // Vérifie si le jeton est valide
+      resetPasswordToken: resetToken,  // Cherche l'utilisateur avec le jeton spécifié
+      resetPasswordExpire: { $gt: Date.now() },  // Vérifie si le jeton n'est pas expiré
     });
 
     if (!user) {
-      return res.status(400).json({ message: 'Jeton invalide ou expiré' });
+      // Si aucun utilisateur n'est trouvé ou si le jeton est expiré, renvoyer une erreur
+      return res.status(400).json({ message: 'Jeton invalide ou expiré. Veuillez vérifier votre lien.' });
     }
 
-    // Modifier le mot de passe de l'utilisateur
+    // Met à jour le mot de passe de l'utilisateur
     user.password = newPassword;
-    user.resetPasswordToken = undefined;  
-    user.resetPasswordExpire = undefined; 
-    await user.save();
+    user.resetPasswordToken = undefined;  // Supprime le jeton de réinitialisation
+    user.resetPasswordExpire = undefined;  // Supprime l'expiration du jeton
+    await user.save();  // Sauvegarde l'utilisateur avec le nouveau mot de passe
 
-    res.status(200).json({ message: 'Votre mot de passe a été réinitialisé avec succès' });
+    // Réponse de succès
+    res.status(200).json({ message: 'Votre mot de passe a été réinitialisé avec succès.' });
+
   } catch (error) {
-    console.error('Erreur lors de la réinitialisation du mot de passe', error);
-    res.status(500).json({ message: 'Erreur interne du serveur' });
+    console.error('Erreur lors de la réinitialisation du mot de passe:', error);
+    res.status(500).json({ message: 'Erreur interne du serveur. Veuillez réessayer plus tard.' });
   }
 };
-
-
 
 
 
