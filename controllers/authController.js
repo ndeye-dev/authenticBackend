@@ -27,7 +27,7 @@ const resetPasswordRequest = async (req, res) => {
     await user.save();
 
     // Créer un lien de réinitialisation contenant le jeton
-    const resetLink = `http://localhost:5174/reset-password/${resetToken}`;
+    const resetLink = `https://extraordinary-biscotti-eb6433.netlify.app/reset-password/${resetToken}`;
 
     // Configurer le transporteur d'email avec nodemailer
     const transporter = nodemailer.createTransport({
