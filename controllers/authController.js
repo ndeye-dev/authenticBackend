@@ -27,7 +27,7 @@ const resetPasswordRequest = async (req, res) => {
     await user.save();
 
     // Créer un lien de réinitialisation contenant le jeton
-    const resetLink = `https://extraordinary-biscotti-eb6433.netlify.app/reset-password/${resetToken}`;
+    const resetLink = `http://localhost:5174/reset-password/${resetToken}`;
 
     // Configurer le transporteur d'email avec nodemailer
     const transporter = nodemailer.createTransport({
@@ -60,8 +60,8 @@ const resetPasswordRequest = async (req, res) => {
 const resetPassword = async (req, res) => {
   const { newPassword } = req.body;
   const {resetToken} = req.params;
-
-  console.log(resetToken)
+  
+console.log(resetToken)
   try {
     // Vérifier le jeton et s'assurer qu'il n'est pas expiré
     const user = await User.findOne({
@@ -85,6 +85,8 @@ const resetPassword = async (req, res) => {
     res.status(500).json({ message: 'Erreur interne du serveur' });
   }
 };
+
+
 
 
 
